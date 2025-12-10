@@ -55,7 +55,7 @@ export async function POST(req) {
     const otpExpiry = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
     const user = new User({
-      ...payload,
+      ...payload, 
       otp,
       otpExpiry,
     });
