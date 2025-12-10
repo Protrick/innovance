@@ -44,11 +44,12 @@ export async function POST(req) {
     const body = await req.json();
 
     // Ensure types and required fields
-    const payload = {
-      ...body,
-      year: Number(body.year),
-      kiitEmail: `${body.rollNumber}@kiit.ac.in`, // derived institutional email
-    };
+    const payload = body;
+    // {
+    //   ...body,
+    //   year: Number(body.year),
+    //   kiitEmail: `${body.rollNumber}@kiit.ac.in`, // derived institutional email
+    // };
 
     const otp = generateOTP();
     const otpExpiry = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
