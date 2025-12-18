@@ -14,7 +14,9 @@ export async function GET(req) {
     await dbConnect();
 
     const user = await User.findOne({ rollNumber: payload.rollNumber })
-      .select("rollNumber firstName lastName kiitEmail")
+      .select(
+        "rollNumber firstName lastName kiitEmail phoneNumber whatsappNumber isPaymentSuccessful paymentScreenshot upiId"
+      )
       .lean();
 
     if (!user) {

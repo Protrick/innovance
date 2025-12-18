@@ -71,39 +71,68 @@ export default function ProfilePage() {
     if (loading) return <div className="p-6">Loading...</div>;
 
     return (
-        <div className="p-6 max-w-md">
-            <h1 className="text-2xl font-bold mb-4">Edit Profile</h1>
-            <form onSubmit={handleSubmit} className="space-y-3">
-                <div>
-                    <label className="block text-sm">First name</label>
-                    <input name="firstName" value={form.firstName} onChange={handleChange} className="w-full border p-2 rounded" />
-                </div>
-                <div>
-                    <label className="block text-sm">Last name</label>
-                    <input name="lastName" value={form.lastName} onChange={handleChange} className="w-full border p-2 rounded" />
-                </div>
-                <div>
-                    <label className="block text-sm">KIIT Email</label>
-                    <input name="kiitEmail" value={form.kiitEmail} onChange={handleChange} className="w-full border p-2 rounded" />
-                </div>
-                <div>
-                    <label className="block text-sm">Phone number</label>
-                    <input name="phoneNumber" value={form.phoneNumber} onChange={handleChange} className="w-full border p-2 rounded" />
-                </div>
-                <div>
-                    <label className="block text-sm">WhatsApp number</label>
-                    <input name="whatsappNumber" value={form.whatsappNumber} onChange={handleChange} className="w-full border p-2 rounded" />
-                </div>
+        <div className="min-h-screen flex items-start justify-center py-10 px-4">
+            <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden">
+                <div className="p-6 md:flex md:items-start md:space-x-6">
+                    {/* Avatar column */}
+                    <div className="shrink-0 flex items-center justify-center mb-4 md:mb-0">
+                        <div className="w-24 h-24 rounded-full border-2 border-gray-100 flex items-center justify-center text-2xl font-semibold text-gray-700 bg-gray-50">
+                            {((form.firstName || user?.firstName || "").charAt(0) + (form.lastName || user?.lastName || "").charAt(0)).toUpperCase() || 'U'}
+                        </div>
+                    </div>
 
-                <div className="flex space-x-2">
-                    <button type="submit" disabled={saving} className="px-3 py-2 bg-indigo-600 text-white rounded">
-                        {saving ? 'Saving...' : 'Save'}
-                    </button>
-                    <button type="button" onClick={() => router.push('/dashboard')} className="px-3 py-2 border rounded">
-                        Cancel
-                    </button>
+                    {/* Form column */}
+                    <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                            <h1 className="text-2xl text-gray-600 font-bold">Edit profile</h1>
+                            <div className="text-sm text-gray-500">Roll: <span className="font-medium text-gray-700">{user?.rollNumber}</span></div>
+                        </div>
+
+                        <p className="mt-2 text-sm text-gray-600">Update your personal details. Changes will be saved to your account.</p>
+
+                        <form onSubmit={handleSubmit} className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-xs font-medium text-gray-600">First name</label>
+                                <input name="firstName" value={form.firstName} onChange={handleChange} className="mt-1 block text-gray-600 w-full rounded-md border-gray-200 p-2 focus:ring-2 focus:ring-indigo-400" required />
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-medium text-gray-600">Last name</label>
+                                <input name="lastName" value={form.lastName} onChange={handleChange} className="mt-1 block text-gray-600 w-full rounded-md border-gray-200 p-2 focus:ring-2 focus:ring-indigo-400" required />
+                            </div>
+
+                            <div className="md:col-span-2">
+                                <label className="block text-xs font-medium text-gray-600">KIIT Email</label>
+                                <input name="kiitEmail" value={form.kiitEmail} onChange={handleChange} className="mt-1 block text-gray-600 w-full rounded-md border-gray-200 p-2 bg-gray-50" />
+                                <p className="text-xs text-gray-500 mt-1">We use this email to send OTP and updates.</p>
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-medium text-gray-600">Phone number</label>
+                                <input name="phoneNumber" value={form.phoneNumber} onChange={handleChange} className="mt-1 block text-gray-600 w-full rounded-md border-gray-200 p-2 focus:ring-2 focus:ring-indigo-400" />
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-medium text-gray-600">WhatsApp number</label>
+                                <input name="whatsappNumber" value={form.whatsappNumber} onChange={handleChange} className="mt-1 block w-full rounded-md text-gray-600 border-gray-200 p-2 focus:ring-2 focus:ring-indigo-400" />
+                            </div>
+
+                            <div className="md:col-span-2 flex items-center space-x-3 mt-2">
+                                <button type="submit" disabled={saving} className="inline-flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700">
+                                    {saving ? 'Saving...' : 'Save changes'}
+                                </button>
+                                <button type="button" onClick={() => router.push('/dashboard')} className="px-4 py-2 border rounded-md text-sm text-gray-700">Cancel</button>
+                                {saving === false && <div className="ml-3 text-sm text-green-600">{user && !saving ? '' : ''}</div>}
+                            </div>
+
+                            {/** success / error messages */}
+                            <div className="md:col-span-2">
+                                {/* placeholder for inline alerts handled by browser alerts already */}
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     );
 }

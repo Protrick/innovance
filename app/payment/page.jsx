@@ -29,13 +29,24 @@ export default function PaymentPage() {
   ];
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      alert("Please complete registration first.");
-      router.push("/register");
-    } else {
-      setRollNumber(user.rollNumber);
+    async function init() {
+      try {
+        const res = await fetch('/api/user');
+        if (!res.ok) {
+          alert('Please complete registration first.');
+          router.push('/register');
+          return;
+        }
+        const data = await res.json();
+        setRollNumber(data.user?.rollNumber || '');
+      } catch (err) {
+        console.error('Failed to fetch current user for payment page', err);
+        alert('Please complete registration first.');
+        router.push('/register');
+        return;
+      }
     }
+    init();
 
     // --- Cyclic QR selection for normal mode ---
     let index = parseInt(localStorage.getItem("qrIndex") || "0", 10);
@@ -86,7 +97,7 @@ export default function PaymentPage() {
       alert(
         "Thank you for joining! Please wait while we confirm your payment and create your ticket."
       );
-      router.push("/");
+      router.push("/dashboard");
     } else {
       alert(data.error);
     }
